@@ -1,42 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
 
-## Write a short comment describing this function
 
-# 创建一个特殊的“矩阵”对象，它可以缓存其逆
+# Create a special "matrix" object that can cache its inverse
 makeCacheMatrix <- function(x = matrix()) {
-  inv <- NULL  # 用来存储逆矩阵的变量
+  inv <- NULL  # The variable used to store the inverse matrix
   
-  # 设置矩阵的函数
+  # A function that sets the matrix
   set <- function(y) {
     x <<- y
-    inv <<- NULL  # 当矩阵改变时，重置逆矩阵缓存
+    inv <<- NULL  # Reset the inverse matrix cache when the matrix changes
   }
   
-  # 获取矩阵的函数
+  # Gets the function of the matrix
   get <- function() x
   
-  # 设置逆矩阵的函数
+  # Sets the function of the inverse matrix
   setInverse <- function(inverse) inv <<- inverse
   
-  # 获取逆矩阵的函数
+  # Gets the function of the inverse matrix
   getInverse <- function() inv
   
-  # 返回包含以上四个方法的列表
+  # Returns a list of the above four methods
   list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
 }
 
-# 计算矩阵的逆，如果已经缓存过则直接返回缓存结果
+# Computes the inverse of the matrix and returns the cached result if it has already been cached
 cacheSolve <- function(x, ...) {
   inv <- x$getInverse()
   
-  # 如果已经缓存了逆矩阵，直接返回
+  # If the inverse matrix is already cached, return it directly
   if (!is.null(inv)) {
     message("getting cached data")
     return(inv)
   }
   
-  # 如果没有缓存，则计算逆矩阵并缓存
+  # If there is no cache, the inverse matrix is computed and cached
   data <- x$get()
   inv <- solve(data, ...)
   x$setInverse(inv)
